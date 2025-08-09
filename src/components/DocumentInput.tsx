@@ -3,8 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Upload, File, X, CheckCircle, AlertCircle } from '@phosphor-icons/react';
+import { FileText, Upload, File, X, CheckCircle, AlertCircle, BookOpen } from '@phosphor-icons/react';
 import { extractTextFromPDF, isPDFFile, formatFileSize, createDocumentPreview } from '@/lib/pdf-parser';
+import SampleDocuments from './SampleDocuments';
 import { toast } from 'sonner';
 
 interface DocumentInputProps {
@@ -27,7 +28,7 @@ export default function DocumentInput({ onDocumentChange, documentText, currentF
     extractedText: '',
     error: null
   });
-  const [activeTab, setActiveTab] = useState<'text' | 'upload'>('text');
+  const [activeTab, setActiveTab] = useState<'samples' | 'upload' | 'text'>('samples');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,8 +138,12 @@ export default function DocumentInput({ onDocumentChange, documentText, currentF
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'text' | 'upload')}>
-          <TabsList className="grid w-full grid-cols-2">
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'samples' | 'upload' | 'text')}>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="samples" className="flex items-center gap-2">
+              <BookOpen size={16} />
+              Samples
+            </TabsTrigger>
             <TabsTrigger value="upload" className="flex items-center gap-2">
               <Upload size={16} />
               Upload PDF
@@ -148,6 +153,10 @@ export default function DocumentInput({ onDocumentChange, documentText, currentF
               Paste Text
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="samples" className="space-y-4">
+            <SampleDocuments onDocumentSelect={onDocumentChange} />
+          </TabsContent>
 
           <TabsContent value="upload" className="space-y-4">
             <input

@@ -5,12 +5,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CheckCircle, ChartBar, ClockCounterClockwise, Warning, GitCompare } from '@phosphor-icons/react';
+import { CheckCircle, ChartBar, ClockCounterClockwise, Warning, GitCompare, Target } from '@phosphor-icons/react';
 import { useKV } from '@github/spark/hooks';
 import { performVirtualAudit, type RegulatoryStandard, type AuditResult, type ClauseResult, type ComparativeAnalysisResult } from '@/lib/virtual-audit';
 import ComparativeAnalysis from './ComparativeAnalysis';
 import DocumentInput from './DocumentInput';
+import PDFParsingAccuracy from './PDFParsingAccuracy';
+import ParsingTestSuite from './ParsingTestSuite';
+import PDFParsingHelp from './PDFParsingHelp';
 import { toast } from 'sonner';
+
+interface ParsedDocumentAnalysis {
+  originalFilename: string;
+  extractedText: string;
+  timestamp: Date;
+}
 
 
 interface StandardSelectorProps {
@@ -245,10 +254,22 @@ export default function VirtualAuditApp() {
   const [isLoading, setIsLoading] = useState(false);
   const [auditHistory, setAuditHistory] = useKV<AuditResult[]>('audit-history', []);
   const [comparativeHistory, setComparativeHistory] = useKV<ComparativeAnalysisResult[]>('comparative-history', []);
+  const [parsedDocuments, setParsedDocuments] = useKV<ParsedDocumentAnalysis[]>('parsed-documents', []);
 
   const handleDocumentChange = (text: string, filename?: string) => {
     setDocumentText(text);
     setCurrentFilename(filename);
+    
+    // If this is a PDF document (has filename), track it for parsing accuracy analysis
+    if (filename && filename.toLowerCase().endsWith('.pdf') || filename?.toLowerCase().endsWith('.txt')) {
+      const parsedDoc: ParsedDocumentAnalysis = {
+        originalFilename: filename,
+        extractedText: text,
+        timestamp: new Date()
+      };
+      
+      setParsedDocuments(prevDocs => [parsedDoc, ...(prevDocs || []).slice(0, 19)]); // Keep last 20 documents
+    }
   };
 
   const handlePerformAudit = () => {
@@ -288,17 +309,21 @@ export default function VirtualAuditApp() {
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">Virtual Audit Readiness</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Comprehensive compliance gap assessment with PDF document analysis across global medical device and pharmaceutical regulations.
-            Upload PDF documents or paste content for analysis against FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
+            Comprehensive compliance gap assessment with advanced PDF document analysis and parsing accuracy verification across global medical device and pharmaceutical regulations.
+            Upload PDF documents, load sample documents, or paste content for analysis against FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
           </p>
         </div>
 
         <Tabs defaultValue="audit" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="audit">Single Standard Audit</TabsTrigger>
             <TabsTrigger value="comparative" className="flex items-center gap-2">
               <GitCompare size={16} />
               Comparative Analysis
+            </TabsTrigger>
+            <TabsTrigger value="parsing" className="flex items-center gap-2">
+              <Target size={16} />
+              PDF Accuracy
             </TabsTrigger>
             <TabsTrigger value="history" className="flex items-center gap-2">
               <ClockCounterClockwise size={16} />
@@ -374,6 +399,31 @@ export default function VirtualAuditApp() {
                 </CardContent>
               </Card>
             )}
+          </TabsContent>
+
+          <TabsContent value="parsing" className="space-y-6">
+            <Tabs defaultValue="analysis">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="analysis">Parsing Analysis</TabsTrigger>
+                <TabsTrigger value="testing">Test Suite</TabsTrigger>
+                <TabsTrigger value="help">Help Guide</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="analysis" className="mt-6">
+                <PDFParsingAccuracy parsedDocuments={parsedDocuments || []} />
+              </TabsContent>
+              
+              <TabsContent value="testing" className="mt-6">
+                <ParsingTestSuite onTestComplete={(results) => {
+                  console.log('Test suite completed:', results);
+                  toast.success(`PDF parsing test completed: ${results.filter(r => r.passed).length}/${results.length} tests passed`);
+                }} />
+              </TabsContent>
+              
+              <TabsContent value="help" className="mt-6">
+                <PDFParsingHelp />
+              </TabsContent>
+            </Tabs>
           </TabsContent>
 
           <TabsContent value="history">
