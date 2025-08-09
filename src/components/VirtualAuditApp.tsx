@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertTriangle, CheckCircle, FileText, BarChart3, History } from '@phosphor-icons/react';
+import { CheckCircle, FileText, ChartBar, ClockCounterClockwise, Warning } from '@phosphor-icons/react';
 import { useKV } from '@github/spark/hooks';
 import { performVirtualAudit, type RegulatoryStandard, type AuditResult, type ClauseResult } from '@/lib/virtual-audit';
 import { toast } from 'sonner';
@@ -65,9 +65,20 @@ function StandardSelector({ selectedStandard, onStandardChange, onPerformAudit, 
           <SelectTrigger>
             <SelectValue placeholder="Select regulatory standard" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ISO13485">ISO 13485 - Medical devices QMS</SelectItem>
-            <SelectItem value="FDA_21CFR820">FDA 21 CFR 820 - Quality System Regulation</SelectItem>
+          <SelectContent className="max-h-80">
+            <div className="font-semibold px-2 py-1 text-xs text-muted-foreground">Medical Device Standards</div>
+            <SelectItem value="ISO13485">ISO 13485 - International Medical Device QMS</SelectItem>
+            <SelectItem value="FDA_21CFR820">FDA 21 CFR 820 - US Quality System Regulation</SelectItem>
+            <SelectItem value="EU_MDR">EU MDR 2017/745 - European Medical Device Regulation</SelectItem>
+            <SelectItem value="UK_MHRA">UK MHRA - Medical Device Regulations</SelectItem>
+            <SelectItem value="HEALTH_CANADA">Health Canada - Medical Device Regulations</SelectItem>
+            <SelectItem value="TGA_AUSTRALIA">TGA Australia - Medical Device Regulations</SelectItem>
+            <SelectItem value="PMDA_JAPAN">PMDA Japan - Medical Device Regulations</SelectItem>
+            
+            <div className="font-semibold px-2 py-1 text-xs text-muted-foreground mt-3">Pharmaceutical Standards</div>
+            <SelectItem value="FDA_21CFR211">FDA 21 CFR 211 - Pharmaceutical cGMP</SelectItem>
+            <SelectItem value="ICH_Q10">ICH Q10 - Pharmaceutical Quality System</SelectItem>
+            <SelectItem value="EU_GMP">EU GMP - Good Manufacturing Practice</SelectItem>
           </SelectContent>
         </Select>
         
@@ -91,7 +102,7 @@ interface ClauseListProps {
 }
 
 function ClauseList({ title, clauses, type }: ClauseListProps) {
-  const icon = type === 'covered' ? CheckCircle : AlertTriangle;
+  const icon = type === 'covered' ? CheckCircle : Warning;
   const iconColor = type === 'covered' ? 'text-green-600' : 'text-orange-500';
   const badgeVariant = type === 'covered' ? 'default' : 'destructive';
 
@@ -151,7 +162,7 @@ function AuditResults({ result }: AuditResultsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="text-primary" />
+            <ChartBar className="text-primary" />
             Audit Summary
           </CardTitle>
         </CardHeader>
@@ -276,7 +287,7 @@ export default function VirtualAuditApp() {
       setCurrentResult(result);
       
       // Add to history
-      setAuditHistory(prevHistory => [result, ...prevHistory.slice(0, 9)]); // Keep last 10 audits
+      setAuditHistory(prevHistory => [result, ...(prevHistory || []).slice(0, 9)]); // Keep last 10 audits
       
       toast.success(`Audit completed - ${result.coveragePercentage}% coverage identified`);
       setIsLoading(false);
@@ -288,9 +299,9 @@ export default function VirtualAuditApp() {
       <div className="container mx-auto py-8 space-y-8">
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">Virtual Audit Readiness</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Automated compliance gap assessment for FDA 21 CFR 820 and ISO 13485 standards.
-            Identify potential compliance gaps before your regulatory inspection.
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Comprehensive compliance gap assessment across global medical device and pharmaceutical regulations.
+            Covers FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
           </p>
         </div>
 
@@ -298,8 +309,8 @@ export default function VirtualAuditApp() {
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="audit">New Audit</TabsTrigger>
             <TabsTrigger value="history" className="flex items-center gap-2">
-              <History size={16} />
-              Audit History ({auditHistory.length})
+              <ClockCounterClockwise size={16} />
+              Audit History ({auditHistory?.length || 0})
             </TabsTrigger>
           </TabsList>
 
@@ -342,7 +353,7 @@ export default function VirtualAuditApp() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <History className="text-primary" />
+                  <ClockCounterClockwise className="text-primary" />
                   Audit History
                 </CardTitle>
                 <CardDescription>
@@ -351,7 +362,7 @@ export default function VirtualAuditApp() {
               </CardHeader>
               <CardContent>
                 <AuditHistory 
-                  auditHistory={auditHistory}
+                  auditHistory={auditHistory || []}
                   onSelectAudit={setCurrentResult}
                 />
               </CardContent>

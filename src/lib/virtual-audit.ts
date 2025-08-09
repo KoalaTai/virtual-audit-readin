@@ -1,4 +1,5 @@
 export const REGULATORY_CHECKLISTS = {
+  // ISO 13485 - International Medical Device QMS Standard
   "ISO13485": [
     {
       clause: "4.1.1",
@@ -167,6 +168,8 @@ export const REGULATORY_CHECKLISTS = {
       ]
     }
   ],
+  
+  // FDA 21 CFR 820 - US Medical Device Quality System Regulation
   "FDA_21CFR820": [
     {
       clause: "820.20",
@@ -338,6 +341,637 @@ export const REGULATORY_CHECKLISTS = {
         "complaint records",
         "complaint review",
         "complaint procedures"
+      ]
+    }
+  ],
+  
+  // EU MDR 2017/745 - European Medical Device Regulation
+  "EU_MDR": [
+    {
+      clause: "Art. 10",
+      title: "Quality Management System",
+      keywords: [
+        "quality management system",
+        "qms requirements",
+        "iso 13485",
+        "quality system procedures",
+        "quality planning",
+        "management responsibility",
+        "quality policy",
+        "continuous improvement"
+      ]
+    },
+    {
+      clause: "Art. 61",
+      title: "UDI System",
+      keywords: [
+        "unique device identification",
+        "udi system",
+        "udi carrier",
+        "device identifier",
+        "production identifier",
+        "udi database",
+        "traceability"
+      ]
+    },
+    {
+      clause: "Art. 83",
+      title: "Vigilance System",
+      keywords: [
+        "post-market surveillance",
+        "serious incidents",
+        "field safety corrective action",
+        "fsca",
+        "vigilance reporting",
+        "incident reporting",
+        "safety updates"
+      ]
+    },
+    {
+      clause: "Art. 87",
+      title: "Summary of Safety and Clinical Performance",
+      keywords: [
+        "sscp",
+        "safety summary",
+        "clinical performance",
+        "benefit-risk analysis",
+        "clinical evidence",
+        "post-market data",
+        "safety profile"
+      ]
+    },
+    {
+      clause: "Annex II",
+      title: "Technical Documentation",
+      keywords: [
+        "technical documentation",
+        "device description",
+        "intended purpose",
+        "risk management",
+        "clinical evaluation",
+        "design and manufacturing",
+        "conformity assessment"
+      ]
+    },
+    {
+      clause: "Annex XIV",
+      title: "Clinical Evaluation",
+      keywords: [
+        "clinical evaluation",
+        "clinical data",
+        "clinical investigation",
+        "clinical evidence",
+        "equivalence demonstration",
+        "literature review",
+        "clinical follow-up"
+      ]
+    },
+    {
+      clause: "Annex III",
+      title: "Post-Market Surveillance",
+      keywords: [
+        "post-market surveillance system",
+        "pms plan",
+        "periodic safety update",
+        "trend analysis",
+        "complaint handling",
+        "market feedback",
+        "surveillance activities"
+      ]
+    }
+  ],
+  
+  // UK MHRA - Medical Device Regulations (post-Brexit)
+  "UK_MHRA": [
+    {
+      clause: "Reg. 18",
+      title: "Quality Management System",
+      keywords: [
+        "quality management system",
+        "approved body assessment",
+        "iso 13485 compliance",
+        "design controls",
+        "risk management",
+        "clinical evaluation",
+        "post-market surveillance"
+      ]
+    },
+    {
+      clause: "Reg. 67",
+      title: "Registration of Devices and Economic Operators",
+      keywords: [
+        "device registration",
+        "mhra registration",
+        "responsible person",
+        "authorized representative",
+        "economic operator",
+        "uk database",
+        "conformity marking"
+      ]
+    },
+    {
+      clause: "Reg. 87",
+      title: "Vigilance and Post-Market Surveillance",
+      keywords: [
+        "vigilance system",
+        "serious incident reporting",
+        "field safety corrective action",
+        "post-market surveillance",
+        "trend reporting",
+        "safety communication",
+        "mhra notification"
+      ]
+    },
+    {
+      clause: "Sch. 3",
+      title: "Clinical Evidence Requirements",
+      keywords: [
+        "clinical investigation",
+        "clinical evaluation",
+        "clinical data",
+        "equivalence demonstration",
+        "literature search",
+        "clinical follow-up",
+        "benefit-risk assessment"
+      ]
+    }
+  ],
+  
+  // Health Canada Medical Device Regulations
+  "HEALTH_CANADA": [
+    {
+      clause: "Sec. 32",
+      title: "Quality System",
+      keywords: [
+        "quality system",
+        "iso 13485",
+        "design controls",
+        "management responsibility",
+        "corrective action",
+        "quality planning",
+        "quality records"
+      ]
+    },
+    {
+      clause: "Sec. 37",
+      title: "Risk Management",
+      keywords: [
+        "risk management",
+        "risk analysis",
+        "risk control",
+        "iso 14971",
+        "risk assessment",
+        "residual risk",
+        "risk management file"
+      ]
+    },
+    {
+      clause: "Sec. 57",
+      title: "Incident Reporting",
+      keywords: [
+        "incident reporting",
+        "medical device problem",
+        "serious injury",
+        "death",
+        "mandatory reporting",
+        "health canada notification",
+        "incident investigation"
+      ]
+    },
+    {
+      clause: "Sec. 65",
+      title: "Recalls",
+      keywords: [
+        "recall",
+        "corrective action",
+        "field safety corrective action",
+        "recall notification",
+        "recall effectiveness",
+        "recall strategy",
+        "recall communication"
+      ]
+    }
+  ],
+  
+  // Australia TGA - Medical Device Regulations
+  "TGA_AUSTRALIA": [
+    {
+      clause: "Sec. 41BD",
+      title: "Conformity Assessment Procedures",
+      keywords: [
+        "conformity assessment",
+        "quality management system",
+        "iso 13485",
+        "design examination",
+        "type examination",
+        "production quality assurance",
+        "full quality assurance"
+      ]
+    },
+    {
+      clause: "Sec. 41BN",
+      title: "Essential Principles",
+      keywords: [
+        "essential principles",
+        "safety requirements",
+        "performance requirements",
+        "benefit-risk analysis",
+        "clinical evidence",
+        "risk management",
+        "biocompatibility"
+      ]
+    },
+    {
+      clause: "Sec. 41BX",
+      title: "Adverse Event Reporting",
+      keywords: [
+        "adverse event reporting",
+        "incident reporting",
+        "serious injury",
+        "death",
+        "device problem",
+        "tga notification",
+        "incident investigation"
+      ]
+    },
+    {
+      clause: "Sch. 3",
+      title: "Clinical Evidence",
+      keywords: [
+        "clinical evidence",
+        "clinical data",
+        "clinical investigation",
+        "literature review",
+        "equivalence data",
+        "clinical evaluation",
+        "post-market clinical follow-up"
+      ]
+    }
+  ],
+  
+  // Japan PMDA - Medical Device Regulations
+  "PMDA_JAPAN": [
+    {
+      clause: "Art. 13.1",
+      title: "QMS Ordinance",
+      keywords: [
+        "qms ordinance",
+        "quality management system",
+        "iso 13485",
+        "design controls",
+        "management responsibility",
+        "corrective action",
+        "quality manual"
+      ]
+    },
+    {
+      clause: "Art. 68.9",
+      title: "Adverse Event Reporting",
+      keywords: [
+        "adverse event reporting",
+        "safety information",
+        "pmda notification",
+        "serious adverse event",
+        "device defect",
+        "infection reports",
+        "safety measures"
+      ]
+    },
+    {
+      clause: "Art. 114.1",
+      title: "Clinical Trials",
+      keywords: [
+        "clinical trial",
+        "clinical investigation",
+        "gcp compliance",
+        "clinical data",
+        "approval application",
+        "clinical evaluation",
+        "post-market study"
+      ]
+    },
+    {
+      clause: "Ch. 3",
+      title: "Manufacturing and Marketing Authorization",
+      keywords: [
+        "manufacturing license",
+        "marketing authorization",
+        "shonin approval",
+        "facility registration",
+        "third party certification",
+        "conformity assessment",
+        "jis standards"
+      ]
+    }
+  ],
+  
+  // FDA 21 CFR 211 - Pharmaceutical cGMP
+  "FDA_21CFR211": [
+    {
+      clause: "211.22",
+      title: "Responsibilities of Quality Control Unit",
+      keywords: [
+        "quality control unit",
+        "qcu responsibilities",
+        "batch disposition",
+        "quality review",
+        "investigation authority",
+        "release authority",
+        "specification approval"
+      ]
+    },
+    {
+      clause: "211.34",
+      title: "Consultants",
+      keywords: [
+        "consultants",
+        "qualified person",
+        "expertise",
+        "education",
+        "training",
+        "experience",
+        "consultant qualifications"
+      ]
+    },
+    {
+      clause: "211.42",
+      title: "Design and Construction Features",
+      keywords: [
+        "facility design",
+        "construction",
+        "location",
+        "contamination prevention",
+        "cleaning",
+        "maintenance",
+        "operations suitability"
+      ]
+    },
+    {
+      clause: "211.68",
+      title: "Automatic, Mechanical, and Electronic Equipment",
+      keywords: [
+        "equipment qualification",
+        "calibration",
+        "inspection",
+        "checking",
+        "maintenance",
+        "computer systems",
+        "equipment validation"
+      ]
+    },
+    {
+      clause: "211.100",
+      title: "Written Procedures; Deviations",
+      keywords: [
+        "written procedures",
+        "batch production records",
+        "deviations",
+        "investigation",
+        "manufacturing directions",
+        "batch records",
+        "procedure compliance"
+      ]
+    },
+    {
+      clause: "211.113",
+      title: "Control of Microbiological Contamination",
+      keywords: [
+        "sterile products",
+        "microbiological contamination",
+        "aseptic processing",
+        "sterilization",
+        "environmental monitoring",
+        "sterility testing",
+        "pyrogen testing"
+      ]
+    },
+    {
+      clause: "211.160",
+      title: "General Requirements - Laboratory Controls",
+      keywords: [
+        "laboratory controls",
+        "testing procedures",
+        "specifications",
+        "sampling",
+        "testing",
+        "examination",
+        "laboratory records"
+      ]
+    },
+    {
+      clause: "211.188",
+      title: "Batch Production and Control Records",
+      keywords: [
+        "batch records",
+        "batch production records",
+        "manufacturing records",
+        "control records",
+        "batch documentation",
+        "production data",
+        "batch history"
+      ]
+    },
+    {
+      clause: "211.192",
+      title: "Production Record Review",
+      keywords: [
+        "production record review",
+        "quality review",
+        "batch review",
+        "record evaluation",
+        "quality unit review",
+        "disposition decision",
+        "investigation review"
+      ]
+    },
+    {
+      clause: "211.198",
+      title: "Complaint Files",
+      keywords: [
+        "complaint files",
+        "customer complaints",
+        "complaint handling",
+        "complaint investigation",
+        "complaint review",
+        "complaint records",
+        "complaint procedures"
+      ]
+    }
+  ],
+  
+  // ICH Q10 - Pharmaceutical Quality System
+  "ICH_Q10": [
+    {
+      clause: "2.2",
+      title: "Management Responsibility",
+      keywords: [
+        "management responsibility",
+        "management commitment",
+        "quality policy",
+        "quality planning",
+        "management review",
+        "resource management",
+        "communication"
+      ]
+    },
+    {
+      clause: "2.4",
+      title: "Management Review",
+      keywords: [
+        "management review",
+        "system review",
+        "performance review",
+        "continual improvement",
+        "effectiveness assessment",
+        "review meetings",
+        "review records"
+      ]
+    },
+    {
+      clause: "3.2",
+      title: "Knowledge Management",
+      keywords: [
+        "knowledge management",
+        "product knowledge",
+        "process knowledge",
+        "quality knowledge",
+        "knowledge transfer",
+        "institutional memory",
+        "learning organization"
+      ]
+    },
+    {
+      clause: "4.1",
+      title: "Corrective Action and Preventive Action System",
+      keywords: [
+        "capa system",
+        "corrective action",
+        "preventive action",
+        "root cause analysis",
+        "investigation",
+        "effectiveness assessment",
+        "trending analysis"
+      ]
+    },
+    {
+      clause: "4.2",
+      title: "Change Management System",
+      keywords: [
+        "change control",
+        "change management",
+        "change evaluation",
+        "change implementation",
+        "change approval",
+        "post-change review",
+        "change documentation"
+      ]
+    },
+    {
+      clause: "4.3",
+      title: "Management Review of Process Performance",
+      keywords: [
+        "process performance",
+        "performance monitoring",
+        "process indicators",
+        "trend analysis",
+        "performance review",
+        "process improvement",
+        "metrics evaluation"
+      ]
+    }
+  ],
+  
+  // EU GMP - Pharmaceutical Good Manufacturing Practice
+  "EU_GMP": [
+    {
+      clause: "Ch. 1.4",
+      title: "Quality Management",
+      keywords: [
+        "quality management",
+        "quality assurance",
+        "quality control",
+        "gmp compliance",
+        "quality system",
+        "quality culture",
+        "quality responsibility"
+      ]
+    },
+    {
+      clause: "Ch. 2.4",
+      title: "Personnel Training",
+      keywords: [
+        "personnel training",
+        "training programs",
+        "competency assessment",
+        "ongoing training",
+        "gmp training",
+        "training records",
+        "qualification"
+      ]
+    },
+    {
+      clause: "Ch. 3.6",
+      title: "Premises and Equipment",
+      keywords: [
+        "premises design",
+        "equipment qualification",
+        "facility validation",
+        "contamination control",
+        "hvac systems",
+        "cleanroom classification",
+        "equipment maintenance"
+      ]
+    },
+    {
+      clause: "Ch. 4.8",
+      title: "Documentation",
+      keywords: [
+        "documentation system",
+        "document control",
+        "procedures",
+        "specifications",
+        "batch records",
+        "documentation review",
+        "document approval"
+      ]
+    },
+    {
+      clause: "Ch. 5.21",
+      title: "Production",
+      keywords: [
+        "production operations",
+        "manufacturing procedures",
+        "in-process controls",
+        "contamination prevention",
+        "batch processing",
+        "production records",
+        "operation controls"
+      ]
+    },
+    {
+      clause: "Ch. 6.17",
+      title: "Quality Control",
+      keywords: [
+        "quality control",
+        "analytical testing",
+        "release testing",
+        "stability testing",
+        "method validation",
+        "laboratory controls",
+        "qc procedures"
+      ]
+    },
+    {
+      clause: "Ch. 8.14",
+      title: "Complaints and Product Recall",
+      keywords: [
+        "complaint handling",
+        "product recall",
+        "recall procedures",
+        "complaint investigation",
+        "customer complaints",
+        "recall effectiveness",
+        "communication"
       ]
     }
   ]
