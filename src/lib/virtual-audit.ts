@@ -1028,7 +1028,7 @@ export interface OverallMetrics {
   uniqueCoverageCount: number;
 }
 
-export function performVirtualAudit(text: string, regulationStandard: RegulatoryStandard): AuditResult {
+export function performVirtualAudit(text: string, regulationStandard: RegulatoryStandard, filename?: string): AuditResult {
   const clauses = REGULATORY_CHECKLISTS[regulationStandard];
   const lowerText = text.toLowerCase();
   
@@ -1052,9 +1052,15 @@ export function performVirtualAudit(text: string, regulationStandard: Regulatory
   
   const coveragePercentage = Math.round((covered_clauses.length / clauses.length) * 100);
   
+  // Create document preview with filename if available
+  let documentPreview = text.substring(0, 200) + (text.length > 200 ? '...' : '');
+  if (filename) {
+    documentPreview = `${filename}: ${documentPreview}`;
+  }
+  
   return {
     standard: regulationStandard,
-    documentPreview: text.substring(0, 200) + (text.length > 200 ? '...' : ''),
+    documentPreview,
     timestamp: new Date().toISOString(),
     covered_clauses,
     potential_gaps,
@@ -1062,8 +1068,8 @@ export function performVirtualAudit(text: string, regulationStandard: Regulatory
   };
 }
 
-export function performComparativeAnalysis(text: string, standards: RegulatoryStandard[]): ComparativeAnalysisResult {
-  const results = standards.map(standard => performVirtualAudit(text, standard));
+export function performComparativeAnalysis(text: string, standards: RegulatoryStandard[], filename?: string): ComparativeAnalysisResult {
+  const results = standards.map(standard => performVirtualAudit(text, standard, filename));
   
   // Calculate overall metrics
   const coverages = results.map(r => r.coveragePercentage);
@@ -1097,8 +1103,14 @@ export function performComparativeAnalysis(text: string, standards: RegulatorySt
     uniqueCoverageCount: crossStandardInsights.filter(insight => insight.type === 'unique_coverage').length
   };
   
+  // Create document preview with filename if available
+  let documentPreview = text.substring(0, 200) + (text.length > 200 ? '...' : '');
+  if (filename) {
+    documentPreview = `${filename}: ${documentPreview}`;
+  }
+  
   return {
-    documentPreview: text.substring(0, 200) + (text.length > 200 ? '...' : ''),
+    documentPreview,
     timestamp: new Date().toISOString(),
     standards,
     results,

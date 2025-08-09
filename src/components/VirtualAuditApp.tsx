@@ -1,48 +1,17 @@
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CheckCircle, FileText, ChartBar, ClockCounterClockwise, Warning, GitCompare } from '@phosphor-icons/react';
+import { CheckCircle, ChartBar, ClockCounterClockwise, Warning, GitCompare } from '@phosphor-icons/react';
 import { useKV } from '@github/spark/hooks';
 import { performVirtualAudit, type RegulatoryStandard, type AuditResult, type ClauseResult, type ComparativeAnalysisResult } from '@/lib/virtual-audit';
 import ComparativeAnalysis from './ComparativeAnalysis';
+import DocumentInput from './DocumentInput';
 import { toast } from 'sonner';
 
-interface DocumentUploadProps {
-  onDocumentChange: (text: string) => void;
-  documentText: string;
-}
-
-function DocumentUpload({ onDocumentChange, documentText }: DocumentUploadProps) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <FileText className="text-primary" />
-          Document Input
-        </CardTitle>
-        <CardDescription>
-          Upload your QMS document or paste the content directly for compliance analysis
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Textarea
-          placeholder="Paste your document content here, such as SOPs, work instructions, or quality manuals..."
-          value={documentText}
-          onChange={(e) => onDocumentChange(e.target.value)}
-          className="min-h-32 font-mono text-sm"
-        />
-        <div className="mt-2 text-sm text-muted-foreground">
-          {documentText.length} characters
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
 
 interface StandardSelectorProps {
   selectedStandard: RegulatoryStandard;
@@ -269,6 +238,7 @@ function AuditHistory({ auditHistory, onSelectAudit }: AuditHistoryProps) {
 
 export default function VirtualAuditApp() {
   const [documentText, setDocumentText] = useState('');
+  const [currentFilename, setCurrentFilename] = useState<string | undefined>();
   const [selectedStandard, setSelectedStandard] = useState<RegulatoryStandard>('ISO13485');
   const [currentResult, setCurrentResult] = useState<AuditResult | null>(null);
   const [currentComparativeResult, setCurrentComparativeResult] = useState<ComparativeAnalysisResult | null>(null);
@@ -276,9 +246,14 @@ export default function VirtualAuditApp() {
   const [auditHistory, setAuditHistory] = useKV<AuditResult[]>('audit-history', []);
   const [comparativeHistory, setComparativeHistory] = useKV<ComparativeAnalysisResult[]>('comparative-history', []);
 
+  const handleDocumentChange = (text: string, filename?: string) => {
+    setDocumentText(text);
+    setCurrentFilename(filename);
+  };
+
   const handlePerformAudit = () => {
     if (!documentText.trim()) {
-      toast.error('Please enter document content to analyze');
+      toast.error('Please enter document content or upload a PDF file to analyze');
       return;
     }
 
@@ -286,14 +261,15 @@ export default function VirtualAuditApp() {
     
     // Simulate processing time for better UX
     setTimeout(() => {
-      const result = performVirtualAudit(documentText, selectedStandard);
+      const result = performVirtualAudit(documentText, selectedStandard, currentFilename);
       setCurrentResult(result);
       setCurrentComparativeResult(null); // Clear comparative results when showing single audit
       
       // Add to history
       setAuditHistory(prevHistory => [result, ...(prevHistory || []).slice(0, 9)]); // Keep last 10 audits
       
-      toast.success(`Audit completed - ${result.coveragePercentage}% coverage identified`);
+      const sourceInfo = currentFilename ? `from ${currentFilename}` : 'from pasted content';
+      toast.success(`Audit completed ${sourceInfo} - ${result.coveragePercentage}% coverage identified`);
       setIsLoading(false);
     }, 1500);
   };
@@ -312,8 +288,8 @@ export default function VirtualAuditApp() {
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">Virtual Audit Readiness</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Comprehensive compliance gap assessment across global medical device and pharmaceutical regulations.
-            Covers FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
+            Comprehensive compliance gap assessment with PDF document analysis across global medical device and pharmaceutical regulations.
+            Upload PDF documents or paste content for analysis against FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
           </p>
         </div>
 
@@ -333,9 +309,10 @@ export default function VirtualAuditApp() {
           <TabsContent value="audit" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">
-                <DocumentUpload 
+                <DocumentInput 
                   documentText={documentText}
-                  onDocumentChange={setDocumentText}
+                  onDocumentChange={handleDocumentChange}
+                  currentFilename={currentFilename}
                 />
               </div>
               <div>
@@ -367,15 +344,17 @@ export default function VirtualAuditApp() {
 
           <TabsContent value="comparative" className="space-y-6">
             <div className="mb-6">
-              <DocumentUpload 
+              <DocumentInput 
                 documentText={documentText}
-                onDocumentChange={setDocumentText}
+                onDocumentChange={handleDocumentChange}
+                currentFilename={currentFilename}
               />
             </div>
             
             <ComparativeAnalysis 
               documentText={documentText}
               onAnalysisComplete={handleComparativeAnalysisComplete}
+              filename={currentFilename}
             />
             
             {currentComparativeResult && (

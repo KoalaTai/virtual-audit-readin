@@ -29,6 +29,7 @@ import { toast } from 'sonner';
 interface ComparativeAnalysisProps {
   documentText: string;
   onAnalysisComplete: (result: ComparativeAnalysisResult) => void;
+  filename?: string;
 }
 
 interface StandardSelectionProps {
@@ -365,7 +366,7 @@ function DetailedResults({ result }: DetailedResultsProps) {
   );
 }
 
-export default function ComparativeAnalysis({ documentText, onAnalysisComplete }: ComparativeAnalysisProps) {
+export default function ComparativeAnalysis({ documentText, onAnalysisComplete, filename }: ComparativeAnalysisProps) {
   const [selectedStandards, setSelectedStandards] = useState<RegulatoryStandard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentResult, setCurrentResult] = useState<ComparativeAnalysisResult | null>(null);
@@ -388,7 +389,7 @@ export default function ComparativeAnalysis({ documentText, onAnalysisComplete }
     
     // Simulate processing time for better UX
     setTimeout(() => {
-      const result = performComparativeAnalysis(documentText, selectedStandards);
+      const result = performComparativeAnalysis(documentText, selectedStandards, filename);
       setCurrentResult(result);
       onAnalysisComplete(result);
       
