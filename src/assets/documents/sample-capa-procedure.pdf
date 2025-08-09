@@ -1,0 +1,200 @@
+%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+/Resources 5 0 R
+>>
+endobj
+
+4 0 obj
+<<
+/Length 2600
+>>
+stream
+BT
+/F1 12 Tf
+72 720 Td
+(GLOBAL PHARMACEUTICALS LLC) Tj
+0 -20 Td
+(Quality Management System) Tj
+0 -20 Td
+(SOP-QM-005: Corrective and Preventive Actions (CAPA)) Tj
+0 -40 Td
+(Document ID: SOP-QM-005) Tj
+0 -20 Td
+(Revision: 3.0) Tj
+0 -20 Td
+(Effective Date: March 10, 2024) Tj
+0 -40 Td
+(1. PURPOSE) Tj
+0 -20 Td
+(This procedure establishes the systematic approach for) Tj
+0 -20 Td
+(identifying, investigating, and implementing corrective) Tj
+0 -20 Td
+(and preventive actions to eliminate causes of actual) Tj
+0 -20 Td
+(and potential nonconformities in accordance with) Tj
+0 -20 Td
+(FDA 21 CFR 820.100 and ISO 13485:2016.) Tj
+0 -40 Td
+(2. SCOPE) Tj
+0 -20 Td
+(This procedure applies to all nonconformities identified) Tj
+0 -20 Td
+(through customer complaints, internal audits, management) Tj
+0 -20 Td
+(review, quality data analysis, and risk management activities.) Tj
+0 -40 Td
+(3. RESPONSIBILITIES) Tj
+0 -20 Td
+(3.1 Quality Assurance Manager:) Tj
+0 -20 Td
+(- Overall responsibility for CAPA system management) Tj
+0 -20 Td
+(- Review and approval of CAPA investigations) Tj
+0 -20 Td
+(3.2 CAPA Team:) Tj
+0 -20 Td
+(- Investigation of root causes) Tj
+0 -20 Td
+(- Development of corrective and preventive actions) Tj
+0 -20 Td
+(- Implementation and verification of effectiveness) Tj
+0 -40 Td
+(4. PROCEDURE) Tj
+0 -20 Td
+(4.1 Problem Identification:) Tj
+0 -20 Td
+(- Nonconformities shall be documented in the CAPA system) Tj
+0 -20 Td
+(- Quality data shall be analyzed to identify trends) Tj
+0 -20 Td
+(- Statistical techniques shall be used where appropriate) Tj
+0 -40 Td
+(4.2 Investigation and Root Cause Analysis:) Tj
+0 -20 Td
+(- Systematic investigation shall identify root causes) Tj
+0 -20 Td
+(- Investigation methods may include:) Tj
+0 -20 Td
+(  * Fishbone diagrams) Tj
+0 -20 Td
+(  * 5 Why analysis) Tj
+0 -20 Td
+(  * Fault tree analysis) Tj
+0 -20 Td
+(  * Statistical process control data) Tj
+0 -40 Td
+(4.3 Action Planning:) Tj
+0 -20 Td
+(- Corrective actions shall eliminate root causes) Tj
+0 -20 Td
+(- Preventive actions shall prevent potential problems) Tj
+0 -20 Td
+(- Actions shall be risk-based and proportionate) Tj
+0 -20 Td
+(- Implementation timeline and responsible parties) Tj
+0 -20 Td
+(  shall be defined) Tj
+0 -40 Td
+(4.4 Implementation and Verification:) Tj
+0 -20 Td
+(- Actions shall be implemented as planned) Tj
+0 -20 Td
+(- Effectiveness shall be verified through:) Tj
+0 -20 Td
+(  * Quality metrics monitoring) Tj
+0 -20 Td
+(  * Follow-up audits) Tj
+0 -20 Td
+(  * Customer feedback analysis) Tj
+0 -20 Td
+(  * Process performance data) Tj
+0 -40 Td
+(5. DOCUMENTATION AND RECORDS) Tj
+0 -20 Td
+(5.1 CAPA records shall include:) Tj
+0 -20 Td
+(- Problem description and data analysis) Tj
+0 -20 Td
+(- Investigation results and root cause) Tj
+0 -20 Td
+(- Proposed actions and rationale) Tj
+0 -20 Td
+(- Implementation evidence) Tj
+0 -20 Td
+(- Verification of effectiveness) Tj
+0 -40 Td
+(6. MANAGEMENT REVIEW) Tj
+0 -20 Td
+(6.1 CAPA system effectiveness shall be reviewed) Tj
+0 -20 Td
+(during management review meetings including:) Tj
+0 -20 Td
+(- CAPA metrics and trends) Tj
+0 -20 Td
+(- Resource adequacy) Tj
+0 -20 Td
+(- System improvements needed) Tj
+ET
+endstream
+endobj
+
+5 0 obj
+<<
+/Type /Resources
+/Font 6 0 R
+>>
+endobj
+
+6 0 obj
+<<
+/F1 7 0 R
+>>
+endobj
+
+7 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+endobj
+
+xref
+0 8
+0000000000 65535 f 
+0000000010 00000 n 
+0000000054 00000 n 
+0000000111 00000 n 
+0000000210 00000 n 
+0000002862 00000 n 
+0000002913 00000 n 
+0000002942 00000 n 
+trailer
+<<
+/Size 8
+/Root 1 0 R
+>>
+startxref
+3018
+%%EOF

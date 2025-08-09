@@ -13,9 +13,16 @@ import {
   Shield, 
   ClipboardText,
   Beaker,
-  Heart
+  Heart,
+  File
 } from '@phosphor-icons/react';
+import { extractTextFromPDF } from '@/lib/pdf-parser';
 import { toast } from 'sonner';
+
+// Import PDF files
+import sampleSOPDeviceDesignControls from '@/assets/documents/sample-sop-device-design-controls.pdf';
+import sampleCAPAProcedure from '@/assets/documents/sample-capa-procedure.pdf';
+import sampleRiskManagement from '@/assets/documents/sample-risk-management.pdf';
 
 interface SampleDocument {
   id: string;
@@ -26,6 +33,8 @@ interface SampleDocument {
   content: string;
   size: string;
   icon: React.ElementType;
+  type: 'text' | 'pdf';
+  pdfUrl?: string;
 }
 
 interface SampleDocumentsProps {
@@ -33,6 +42,44 @@ interface SampleDocumentsProps {
 }
 
 const sampleDocuments: SampleDocument[] = [
+  // PDF Documents
+  {
+    id: 'pdf-design-control-sop',
+    title: 'Design Control SOP (PDF)',
+    description: 'PDF version of Design Control SOP - test PDF parsing with realistic medical device document',
+    category: 'medical-device',
+    standards: ['FDA_21CFR820', 'ISO13485'],
+    size: '3.8 KB',
+    icon: File,
+    type: 'pdf',
+    pdfUrl: sampleSOPDeviceDesignControls,
+    content: 'PDF document - content will be extracted automatically'
+  },
+  {
+    id: 'pdf-capa-procedure',
+    title: 'CAPA Procedure (PDF)', 
+    description: 'PDF version of Corrective and Preventive Action procedure - comprehensive CAPA process',
+    category: 'quality-system',
+    standards: ['FDA_21CFR820', 'ISO13485'],
+    size: '3.7 KB',
+    icon: File,
+    type: 'pdf',
+    pdfUrl: sampleCAPAProcedure,
+    content: 'PDF document - content will be extracted automatically'
+  },
+  {
+    id: 'pdf-risk-management',
+    title: 'Risk Management Manual (PDF)',
+    description: 'PDF version of Risk Management manual following ISO 14971 - test complex document structure',
+    category: 'medical-device',
+    standards: ['ISO14971', 'ISO13485', 'EU_MDR'],
+    size: '3.7 KB',
+    icon: File,
+    type: 'pdf',
+    pdfUrl: sampleRiskManagement,
+    content: 'PDF document - content will be extracted automatically'
+  },
+  // Text Documents (existing ones)
   {
     id: 'design-control-sop',
     title: 'Design Control SOP',
@@ -41,6 +88,7 @@ const sampleDocuments: SampleDocument[] = [
     standards: ['FDA_21CFR820', 'ISO13485'],
     size: '2.3 KB',
     icon: FileText,
+    type: 'text',
     content: `STANDARD OPERATING PROCEDURE
 Design Control Process
 
@@ -126,6 +174,7 @@ This procedure ensures compliance with FDA Quality System Regulation and ISO 134
     standards: ['ISO14971', 'ISO13485', 'EU_MDR'],
     size: '3.1 KB',
     icon: Shield,
+    type: 'text',
     content: `RISK MANAGEMENT PLAN
 Medical Device Risk Assessment
 
@@ -222,6 +271,7 @@ This risk management plan ensures systematic identification and control of risks
     standards: ['FDA_21CFR211', 'ICH_Q10', 'EU_GMP'],
     size: '2.8 KB',
     icon: Beaker,
+    type: 'text',
     content: `STANDARD OPERATING PROCEDURE
 Pharmaceutical Manufacturing Operations
 
@@ -335,6 +385,7 @@ This SOP ensures pharmaceutical manufacturing compliance with cGMP regulations a
     standards: ['ISO13485', 'FDA_21CFR820', 'EU_MDR', 'HEALTH_CANADA'],
     size: '4.2 KB',
     icon: BookOpen,
+    type: 'text',
     content: `QUALITY MANAGEMENT SYSTEM MANUAL
 Medical Device Quality System
 
@@ -472,6 +523,7 @@ This Quality Management System ensures compliance with applicable medical device
     standards: ['EU_MDR', 'FDA_21CFR820', 'ISO14155'],
     size: '2.9 KB',
     icon: Heart,
+    type: 'text',
     content: `CLINICAL EVALUATION REPORT
 Medical Device Clinical Assessment
 
@@ -599,6 +651,7 @@ This clinical evaluation report demonstrates the clinical safety and performance
     standards: ['FDA_21CFR820', 'ISO13485', 'EU_MDR', 'HEALTH_CANADA', 'TGA_AUSTRALIA'],
     size: '3.4 KB',
     icon: ClipboardText,
+    type: 'text',
     content: `STANDARD OPERATING PROCEDURE
 Customer Complaint Handling Process
 
@@ -739,6 +792,7 @@ This procedure ensures systematic complaint handling and regulatory compliance f
 export default function SampleDocuments({ onDocumentSelect }: SampleDocumentsProps) {
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'medical-device' | 'pharmaceutical' | 'quality-system'>('all');
   const [expandedDocs, setExpandedDocs] = useState<Set<string>>(new Set());
+  const [loadingPdf, setLoadingPdf] = useState<string | null>(null);
 
   const categories = [
     { id: 'all', label: 'All Documents', icon: FileText },
@@ -761,22 +815,62 @@ export default function SampleDocuments({ onDocumentSelect }: SampleDocumentsPro
     setExpandedDocs(newExpanded);
   };
 
-  const handleDocumentSelect = (document: SampleDocument) => {
-    onDocumentSelect(document.content, `${document.title}.txt`);
-    toast.success(`Loaded "${document.title}" for analysis`);
+  const handleDocumentSelect = async (document: SampleDocument) => {
+    if (document.type === 'pdf' && document.pdfUrl) {
+      setLoadingPdf(document.id);
+      try {
+        toast.loading(`Loading PDF: ${document.title}...`, { id: `pdf-load-${document.id}` });
+        
+        // Fetch PDF file
+        const response = await fetch(document.pdfUrl);
+        const arrayBuffer = await response.arrayBuffer();
+        const file = new File([arrayBuffer], `${document.title}.pdf`, { type: 'application/pdf' });
+        
+        // Extract text from PDF
+        const extractedText = await extractTextFromPDF(file);
+        
+        onDocumentSelect(extractedText, `${document.title}.pdf`);
+        toast.success(`Successfully loaded PDF: ${document.title}`, { id: `pdf-load-${document.id}` });
+        
+      } catch (error) {
+        console.error('Error loading PDF:', error);
+        toast.error(`Failed to load PDF: ${document.title}`, { id: `pdf-load-${document.id}` });
+      } finally {
+        setLoadingPdf(null);
+      }
+    } else {
+      onDocumentSelect(document.content, `${document.title}.txt`);
+      toast.success(`Loaded "${document.title}" for analysis`);
+    }
   };
 
-  const handleDownload = (document: SampleDocument) => {
-    const blob = new Blob([document.content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${document.title.replace(/\s+/g, '_')}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    toast.success(`Downloaded "${document.title}"`);
+  const handleDownload = async (document: SampleDocument) => {
+    if (document.type === 'pdf' && document.pdfUrl) {
+      // Download PDF file
+      const response = await fetch(document.pdfUrl);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${document.title.replace(/\s+/g, '_')}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast.success(`Downloaded "${document.title}" PDF`);
+    } else {
+      // Download text file
+      const blob = new Blob([document.content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${document.title.replace(/\s+/g, '_')}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      toast.success(`Downloaded "${document.title}" text file`);
+    }
   };
 
   return (
@@ -787,7 +881,7 @@ export default function SampleDocuments({ onDocumentSelect }: SampleDocumentsPro
           Sample Compliance Documents
         </CardTitle>
         <CardDescription>
-          Load realistic compliance documents to test PDF parsing accuracy and regulatory analysis
+          Load realistic compliance documents to test PDF parsing accuracy and regulatory analysis. Includes both text and PDF versions for comprehensive testing.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -855,20 +949,33 @@ export default function SampleDocuments({ onDocumentSelect }: SampleDocumentsPro
                         <div className="space-y-4">
                           {/* Document Preview */}
                           <div className="p-4 rounded-lg bg-muted max-h-64 overflow-y-auto">
-                            <pre className="text-xs font-mono whitespace-pre-wrap">
-                              {document.content.substring(0, 800)}
-                              {document.content.length > 800 && '\n\n[Content continues...]'}
-                            </pre>
+                            {document.type === 'pdf' ? (
+                              <div className="text-center py-8 text-muted-foreground">
+                                <File size={48} className="mx-auto mb-2" />
+                                <div>PDF Document</div>
+                                <div className="text-xs">Content will be extracted when loaded</div>
+                              </div>
+                            ) : (
+                              <pre className="text-xs font-mono whitespace-pre-wrap">
+                                {document.content.substring(0, 800)}
+                                {document.content.length > 800 && '\n\n[Content continues...]'}
+                              </pre>
+                            )}
                           </div>
                           
                           {/* Action Buttons */}
                           <div className="flex gap-2">
                             <Button 
                               onClick={() => handleDocumentSelect(document)}
+                              disabled={loadingPdf === document.id}
                               className="flex items-center gap-2"
                             >
-                              <FileText size={16} />
-                              Load for Analysis
+                              {loadingPdf === document.id ? (
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                              ) : (
+                                <FileText size={16} />
+                              )}
+                              {loadingPdf === document.id ? 'Processing...' : 'Load for Analysis'}
                             </Button>
                             <Button 
                               variant="outline"
@@ -876,7 +983,7 @@ export default function SampleDocuments({ onDocumentSelect }: SampleDocumentsPro
                               className="flex items-center gap-2"
                             >
                               <Download size={16} />
-                              Download
+                              Download {document.type === 'pdf' ? 'PDF' : 'TXT'}
                             </Button>
                           </div>
                         </div>

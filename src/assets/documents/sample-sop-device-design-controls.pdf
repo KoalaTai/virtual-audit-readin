@@ -1,0 +1,188 @@
+%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+/Resources 5 0 R
+>>
+endobj
+
+4 0 obj
+<<
+/Length 2800
+>>
+stream
+BT
+/F1 12 Tf
+72 720 Td
+(ACME MEDICAL DEVICES, INC.) Tj
+0 -20 Td
+(Standard Operating Procedure) Tj
+0 -20 Td
+(SOP-DE-001: Design Controls for Medical Devices) Tj
+0 -40 Td
+(Document ID: SOP-DE-001) Tj
+0 -20 Td
+(Revision: 2.1) Tj
+0 -20 Td
+(Effective Date: January 15, 2024) Tj
+0 -40 Td
+(1. PURPOSE AND SCOPE) Tj
+0 -20 Td
+(This Standard Operating Procedure establishes the design controls) Tj
+0 -20 Td
+(process for medical device development in accordance with FDA) Tj
+0 -20 Td
+(21 CFR 820.30 and ISO 13485 requirements.) Tj
+0 -40 Td
+(2. DESIGN AND DEVELOPMENT PLANNING) Tj
+0 -20 Td
+(2.1 Design planning shall be documented and shall identify:) Tj
+0 -20 Td
+(- Design and development activities) Tj
+0 -20 Td
+(- Personnel responsible for each design activity) Tj
+0 -20 Td
+(- Verification and validation requirements) Tj
+0 -20 Td
+(- Design transfer criteria) Tj
+0 -40 Td
+(3. DESIGN INPUTS) Tj
+0 -20 Td
+(3.1 Design inputs shall be documented and shall include:) Tj
+0 -20 Td
+(- Intended use and indications for use) Tj
+0 -20 Td
+(- User needs and user requirements) Tj
+0 -20 Td
+(- Functional requirements and performance requirements) Tj
+0 -20 Td
+(- Safety requirements including risk analysis) Tj
+0 -20 Td
+(- Applicable statutory and regulatory requirements) Tj
+0 -20 Td
+(- Applicable standards and guidance documents) Tj
+0 -40 Td
+(4. DESIGN OUTPUTS) Tj
+0 -20 Td
+(4.1 Design outputs shall be documented and shall:) Tj
+0 -20 Td
+(- Meet the design input requirements) Tj
+0 -20 Td
+(- Contain specifications for purchasing, production, and servicing) Tj
+0 -20 Td
+(- Define acceptance criteria for the device) Tj
+0 -20 Td
+(- Identify characteristics critical to device safety and performance) Tj
+0 -40 Td
+(5. DESIGN REVIEW) Tj
+0 -20 Td
+(5.1 Design reviews shall be conducted at appropriate stages) Tj
+0 -20 Td
+(to evaluate design adequacy and identify design problems.) Tj
+0 -20 Td
+(Design review participants shall include representatives) Tj
+0 -20 Td
+(from functions concerned with the design stage being reviewed.) Tj
+0 -40 Td
+(6. DESIGN VERIFICATION) Tj
+0 -20 Td
+(6.1 Design verification shall confirm that design outputs) Tj
+0 -20 Td
+(meet design input requirements through objective evidence.) Tj
+0 -20 Td
+(Verification activities may include design calculations,) Tj
+0 -20 Td
+(similarity analyses, bench testing, and clinical studies.) Tj
+0 -40 Td
+(7. DESIGN VALIDATION) Tj
+0 -20 Td
+(7.1 Design validation shall demonstrate that devices) Tj
+0 -20 Td
+(conform to user needs and intended uses under actual) Tj
+0 -20 Td
+(or simulated use conditions. Clinical evaluation may) Tj
+0 -20 Td
+(be part of design validation activities.) Tj
+0 -40 Td
+(8. DESIGN TRANSFER) Tj
+0 -20 Td
+(8.1 Design transfer activities shall ensure that) Tj
+0 -20 Td
+(the device design is correctly translated into) Tj
+0 -20 Td
+(production specifications and procedures.) Tj
+0 -40 Td
+(9. DESIGN CHANGES) Tj
+0 -20 Td
+(9.1 Design changes shall be identified, documented,) Tj
+0 -20 Td
+(validated, verified as appropriate, reviewed, and approved) Tj
+0 -20 Td
+(before implementation in accordance with change control procedures.) Tj
+0 -40 Td
+(10. DESIGN HISTORY FILE) Tj
+0 -20 Td
+(10.1 A design history file shall be maintained for each) Tj
+0 -20 Td
+(device type containing records of design control activities.) Tj
+ET
+endstream
+endobj
+
+5 0 obj
+<<
+/Type /Resources
+/Font 6 0 R
+>>
+endobj
+
+6 0 obj
+<<
+/F1 7 0 R
+>>
+endobj
+
+7 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+endobj
+
+xref
+0 8
+0000000000 65535 f 
+0000000010 00000 n 
+0000000054 00000 n 
+0000000111 00000 n 
+0000000210 00000 n 
+0000003062 00000 n 
+0000003113 00000 n 
+0000003142 00000 n 
+trailer
+<<
+/Size 8
+/Root 1 0 R
+>>
+startxref
+3218
+%%EOF

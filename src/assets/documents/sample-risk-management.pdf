@@ -1,0 +1,196 @@
+%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+/Resources 5 0 R
+>>
+endobj
+
+4 0 obj
+<<
+/Length 2400
+>>
+stream
+BT
+/F1 12 Tf
+72 720 Td
+(INNOVATIVE MEDICAL SOLUTIONS INC.) Tj
+0 -20 Td
+(Quality Manual) Tj
+0 -20 Td
+(QM-RM-002: Risk Management for Medical Devices) Tj
+0 -40 Td
+(Document ID: QM-RM-002) Tj
+0 -20 Td
+(Revision: 1.5) Tj
+0 -20 Td
+(Effective Date: February 5, 2024) Tj
+0 -40 Td
+(1. PURPOSE AND SCOPE) Tj
+0 -20 Td
+(This Quality Manual section establishes the risk) Tj
+0 -20 Td
+(management process for medical devices in accordance) Tj
+0 -20 Td
+(with ISO 14971:2019 and FDA guidance documents.) Tj
+0 -40 Td
+(2. RISK MANAGEMENT PROCESS) Tj
+0 -20 Td
+(2.1 Risk Analysis) Tj
+0 -20 Td
+(Risk analysis shall be conducted systematically to:) Tj
+0 -20 Td
+(- Identify intended use and reasonably foreseeable misuse) Tj
+0 -20 Td
+(- Identify hazards and hazardous situations) Tj
+0 -20 Td
+(- Estimate risk for each hazardous situation) Tj
+0 -40 Td
+(2.2 Risk Evaluation) Tj
+0 -20 Td
+(- Risk acceptability criteria shall be established) Tj
+0 -20 Td
+(- Risks shall be evaluated against acceptance criteria) Tj
+0 -20 Td
+(- Risk-benefit analysis shall be performed where applicable) Tj
+0 -40 Td
+(2.3 Risk Control) Tj
+0 -20 Td
+(Risk control measures shall be implemented in order:) Tj
+0 -20 Td
+(1) Inherent safety by design) Tj
+0 -20 Td
+(2) Protective measures in the device or manufacturing) Tj
+0 -20 Td
+(3) Information for safety including warnings and) Tj
+0 -20 Td
+(   precautions in labeling) Tj
+0 -40 Td
+(2.4 Residual Risk Assessment) Tj
+0 -20 Td
+(- Residual risk shall be evaluated after risk control) Tj
+0 -20 Td
+(- Overall residual risk shall be acceptable) Tj
+0 -20 Td
+(- Benefits shall outweigh residual risks) Tj
+0 -40 Td
+(3. RISK MANAGEMENT FILE) Tj
+0 -20 Td
+(3.1 Risk management file shall contain:) Tj
+0 -20 Td
+(- Risk management plan) Tj
+0 -20 Td
+(- Hazard analysis and risk assessment) Tj
+0 -20 Td
+(- Risk evaluation criteria) Tj
+0 -20 Td
+(- Risk control measures and verification) Tj
+0 -20 Td
+(- Residual risk analysis) Tj
+0 -20 Td
+(- Risk-benefit analysis) Tj
+0 -20 Td
+(- Risk management report) Tj
+0 -40 Td
+(4. POST-MARKET SURVEILLANCE) Tj
+0 -20 Td
+(4.1 Information Collection) Tj
+0 -20 Td
+(Post-market information shall be actively collected:) Tj
+0 -20 Td
+(- Customer complaints and adverse event reports) Tj
+0 -20 Td
+(- Post-market clinical follow-up data) Tj
+0 -20 Td
+(- Literature and regulatory announcements) Tj
+0 -40 Td
+(4.2 Risk Management Review) Tj
+0 -20 Td
+(- Post-market information shall be reviewed regularly) Tj
+0 -20 Td
+(- Risk assessment shall be updated if necessary) Tj
+0 -20 Td
+(- Additional risk control measures shall be implemented) Tj
+0 -20 Td
+(  if new risks are identified) Tj
+0 -40 Td
+(5. COMPETENCE AND TRAINING) Tj
+0 -20 Td
+(5.1 Personnel involved in risk management shall be:) Tj
+0 -20 Td
+(- Competent based on education, training, and experience) Tj
+0 -20 Td
+(- Trained on risk management procedures and tools) Tj
+0 -20 Td
+(- Familiar with applicable standards and regulations) Tj
+0 -40 Td
+(6. MANAGEMENT RESPONSIBILITY) Tj
+0 -20 Td
+(6.1 Top management shall ensure:) Tj
+0 -20 Td
+(- Risk management policy is established) Tj
+0 -20 Td
+(- Adequate resources are provided) Tj
+0 -20 Td
+(- Risk management is integrated with quality system) Tj
+ET
+endstream
+endobj
+
+5 0 obj
+<<
+/Type /Resources
+/Font 6 0 R
+>>
+endobj
+
+6 0 obj
+<<
+/F1 7 0 R
+>>
+endobj
+
+7 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+endobj
+
+xref
+0 8
+0000000000 65535 f 
+0000000010 00000 n 
+0000000054 00000 n 
+0000000111 00000 n 
+0000000210 00000 n 
+0000002662 00000 n 
+0000002713 00000 n 
+0000002742 00000 n 
+trailer
+<<
+/Size 8
+/Root 1 0 R
+>>
+startxref
+2818
+%%EOF

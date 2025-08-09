@@ -309,8 +309,8 @@ export default function VirtualAuditApp() {
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">Virtual Audit Readiness</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Comprehensive compliance gap assessment with advanced PDF document analysis and parsing accuracy verification across global medical device and pharmaceutical regulations.
-            Upload PDF documents, load sample documents, or paste content for analysis against FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
+            Advanced compliance gap assessment with comprehensive PDF document analysis, parsing accuracy verification, and intelligent document type detection across global medical device and pharmaceutical regulations.
+            Upload your own PDF documents, load sample documents, or paste content for analysis against FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
           </p>
         </div>
 
