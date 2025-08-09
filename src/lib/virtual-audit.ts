@@ -995,6 +995,39 @@ export interface AuditResult {
   coveragePercentage: number;
 }
 
+export interface ComparativeAnalysisResult {
+  documentPreview: string;
+  timestamp: string;
+  standards: RegulatoryStandard[];
+  results: AuditResult[];
+  crossStandardInsights: CrossStandardInsight[];
+  overallMetrics: OverallMetrics;
+}
+
+export interface CrossStandardInsight {
+  type: 'common_gap' | 'unique_coverage' | 'regulatory_overlap' | 'best_performer';
+  title: string;
+  description: string;
+  standards: RegulatoryStandard[];
+  clauses: string[];
+  severity: 'high' | 'medium' | 'low';
+}
+
+export interface OverallMetrics {
+  averageCoverage: number;
+  bestPerformingStandard: {
+    standard: RegulatoryStandard;
+    coverage: number;
+  };
+  worstPerformingStandard: {
+    standard: RegulatoryStandard;
+    coverage: number;
+  };
+  totalUniqueClauses: number;
+  commonGapsCount: number;
+  uniqueCoverageCount: number;
+}
+
 export function performVirtualAudit(text: string, regulationStandard: RegulatoryStandard): AuditResult {
   const clauses = REGULATORY_CHECKLISTS[regulationStandard];
   const lowerText = text.toLowerCase();
@@ -1028,3 +1061,165 @@ export function performVirtualAudit(text: string, regulationStandard: Regulatory
     coveragePercentage
   };
 }
+
+export function performComparativeAnalysis(text: string, standards: RegulatoryStandard[]): ComparativeAnalysisResult {
+  const results = standards.map(standard => performVirtualAudit(text, standard));
+  
+  // Calculate overall metrics
+  const coverages = results.map(r => r.coveragePercentage);
+  const averageCoverage = Math.round(coverages.reduce((sum, coverage) => sum + coverage, 0) / coverages.length);
+  
+  const bestPerforming = results.reduce((best, current) => 
+    current.coveragePercentage > best.coveragePercentage ? current : best
+  );
+  
+  const worstPerforming = results.reduce((worst, current) => 
+    current.coveragePercentage < worst.coveragePercentage ? current : worst
+  );
+  
+  const totalUniqueClauses = new Set(results.flatMap(r => [...r.covered_clauses, ...r.potential_gaps].map(c => c.clause))).size;
+  
+  // Identify cross-standard insights
+  const crossStandardInsights = generateCrossStandardInsights(results, standards);
+  
+  const overallMetrics: OverallMetrics = {
+    averageCoverage,
+    bestPerformingStandard: {
+      standard: bestPerforming.standard,
+      coverage: bestPerforming.coveragePercentage
+    },
+    worstPerformingStandard: {
+      standard: worstPerforming.standard,
+      coverage: worstPerforming.coveragePercentage
+    },
+    totalUniqueClauses,
+    commonGapsCount: crossStandardInsights.filter(insight => insight.type === 'common_gap').length,
+    uniqueCoverageCount: crossStandardInsights.filter(insight => insight.type === 'unique_coverage').length
+  };
+  
+  return {
+    documentPreview: text.substring(0, 200) + (text.length > 200 ? '...' : ''),
+    timestamp: new Date().toISOString(),
+    standards,
+    results,
+    crossStandardInsights,
+    overallMetrics
+  };
+}
+
+function generateCrossStandardInsights(results: AuditResult[], standards: RegulatoryStandard[]): CrossStandardInsight[] {
+  const insights: CrossStandardInsight[] = [];
+  
+  // Find common gaps (clauses missing across multiple standards)
+  const allGaps = results.flatMap(result => 
+    result.potential_gaps.map(gap => ({ 
+      standard: result.standard, 
+      clause: gap.clause, 
+      title: gap.title 
+    }))
+  );
+  
+  const gapCounts = new Map<string, { count: number; standards: RegulatoryStandard[]; title: string }>();
+  allGaps.forEach(gap => {
+    const key = gap.clause;
+    if (!gapCounts.has(key)) {
+      gapCounts.set(key, { count: 0, standards: [], title: gap.title });
+    }
+    const existing = gapCounts.get(key)!;
+    existing.count++;
+    if (!existing.standards.includes(gap.standard)) {
+      existing.standards.push(gap.standard);
+    }
+  });
+  
+  // Identify gaps that appear in multiple standards
+  Array.from(gapCounts.entries()).forEach(([clause, data]) => {
+    if (data.count >= 2) {
+      insights.push({
+        type: 'common_gap',
+        title: `Common Gap: ${data.title}`,
+        description: `This requirement is missing across ${data.count} regulatory standards, indicating a significant compliance risk.`,
+        standards: data.standards,
+        clauses: [clause],
+        severity: data.count >= 3 ? 'high' : 'medium'
+      });
+    }
+  });
+  
+  // Find unique coverage patterns
+  const allCoverage = results.flatMap(result => 
+    result.covered_clauses.map(covered => ({ 
+      standard: result.standard, 
+      clause: covered.clause, 
+      title: covered.title 
+    }))
+  );
+  
+  const coverageCounts = new Map<string, { standards: RegulatoryStandard[]; title: string }>();
+  allCoverage.forEach(coverage => {
+    const key = coverage.clause;
+    if (!coverageCounts.has(key)) {
+      coverageCounts.set(key, { standards: [], title: coverage.title });
+    }
+    const existing = coverageCounts.get(key)!;
+    if (!existing.standards.includes(coverage.standard)) {
+      existing.standards.push(coverage.standard);
+    }
+  });
+  
+  // Identify regulatory overlaps (same requirements across standards)
+  Array.from(coverageCounts.entries()).forEach(([clause, data]) => {
+    if (data.standards.length >= 2) {
+      insights.push({
+        type: 'regulatory_overlap',
+        title: `Regulatory Alignment: ${data.title}`,
+        description: `This requirement is addressed consistently across ${data.standards.length} standards, showing good regulatory alignment.`,
+        standards: data.standards,
+        clauses: [clause],
+        severity: 'low'
+      });
+    }
+  });
+  
+  // Identify best performer insights
+  const sortedResults = [...results].sort((a, b) => b.coveragePercentage - a.coveragePercentage);
+  if (sortedResults.length >= 2) {
+    const best = sortedResults[0];
+    const second = sortedResults[1];
+    
+    if (best.coveragePercentage - second.coveragePercentage >= 15) {
+      insights.push({
+        type: 'best_performer',
+        title: `${getStandardDisplayName(best.standard)} Shows Superior Coverage`,
+        description: `${getStandardDisplayName(best.standard)} achieves ${best.coveragePercentage}% coverage, significantly outperforming other standards by ${best.coveragePercentage - second.coveragePercentage}+ percentage points.`,
+        standards: [best.standard],
+        clauses: best.covered_clauses.map(c => c.clause),
+        severity: 'low'
+      });
+    }
+  }
+  
+  // Sort insights by severity
+  return insights.sort((a, b) => {
+    const severityOrder = { high: 3, medium: 2, low: 1 };
+    return severityOrder[b.severity] - severityOrder[a.severity];
+  });
+}
+
+function getStandardDisplayName(standard: RegulatoryStandard): string {
+  const displayNames: Record<RegulatoryStandard, string> = {
+    'ISO13485': 'ISO 13485',
+    'FDA_21CFR820': 'FDA 21 CFR 820',
+    'EU_MDR': 'EU MDR',
+    'UK_MHRA': 'UK MHRA',
+    'HEALTH_CANADA': 'Health Canada',
+    'TGA_AUSTRALIA': 'TGA Australia',
+    'PMDA_JAPAN': 'PMDA Japan',
+    'FDA_21CFR211': 'FDA 21 CFR 211',
+    'ICH_Q10': 'ICH Q10',
+    'EU_GMP': 'EU GMP'
+  };
+  return displayNames[standard] || standard;
+}
+
+export { getStandardDisplayName };

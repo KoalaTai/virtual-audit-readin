@@ -50,6 +50,19 @@ A comprehensive web-based compliance gap assessment tool that helps medical devi
 - **Progression**: Complete audit → Auto-save with regional tagging → Access history → Compare across standards
 - **Success criteria**: Reliable storage and retrieval with multi-regional comparison capabilities
 
+### Comparative Analysis Across Multiple Standards
+- **Functionality**: Simultaneously evaluate document compliance against multiple regulatory standards to identify cross-standard patterns, common gaps, and regulatory overlaps
+- **Purpose**: Provide strategic insights for global market entry and comprehensive compliance planning by analyzing requirements across multiple jurisdictions
+- **Features**:
+  - Multi-standard selection interface with medical device and pharmaceutical categorization
+  - Cross-standard gap analysis identifying common compliance deficiencies across regulations
+  - Regulatory overlap detection showing aligned requirements between standards
+  - Performance comparison showing coverage percentages across different regulatory frameworks
+  - Strategic insights highlighting best-performing standards and critical gap patterns
+- **Trigger**: User selects multiple standards (minimum 2) and initiates comparative analysis
+- **Progression**: Select standards → Process document → Generate cross-standard insights → Display comparative dashboard → Provide strategic recommendations
+- **Success criteria**: Accurate cross-standard analysis providing actionable insights for global compliance strategy
+
 ## Edge Case Handling
 - **Empty Document**: Display helpful guidance on document requirements and formatting
 - **Unsupported Format**: Clear error messages with supported format instructions  
@@ -57,6 +70,8 @@ A comprehensive web-based compliance gap assessment tool that helps medical devi
 - **Regional Variations**: Handle different regulatory terminology and requirements across jurisdictions
 - **Multi-Standard Conflicts**: Clear guidance when standards have conflicting requirements
 - **Language Variations**: Support for common regulatory terminology variations (e.g., "CAPA" vs "Corrective Action")
+- **Comparative Analysis Complexity**: Handle scenarios where some standards have overlapping clauses while others are completely distinct
+- **Standard Selection Logic**: Prevent analysis with incompatible standard combinations and provide guidance on meaningful comparisons
 
 ## Design Direction
 The design should convey global regulatory expertise with a professional, enterprise-grade interface that handles complex multi-jurisdictional compliance requirements. Clean, structured layouts emphasize thoroughness while maintaining intuitive navigation across diverse regulatory frameworks.
@@ -90,9 +105,9 @@ Professional animations that reinforce systematic global compliance analysis, wi
 - **Hierarchy of Movement**: Document processing and standard selection get primary focus, subtle regional indicators for different jurisdictions
 
 ## Component Selection
-- **Components**: Categorized dropdown for regional standards, Cards for jurisdiction-specific results, Tabs for device vs. pharmaceutical standards, Progress indicators for multi-regional processing, Tables for comparative clause coverage, Badges for regional compliance status
-- **Customizations**: Multi-regional audit comparison component, jurisdiction-specific compliance indicators, global standards timeline
-- **States**: Clear loading, success, warning states with regional context and appropriate jurisdiction-specific color coding
-- **Icon Selection**: Globe, Shield, CheckCircle, AlertTriangle, FileText, BarChart for representing global compliance states
+- **Components**: Categorized dropdown for regional standards, Cards for jurisdiction-specific results, Tabs for device vs. pharmaceutical standards, Progress indicators for multi-regional processing, Tables for comparative clause coverage, Badges for regional compliance status, Checkbox groups for multi-standard selection
+- **Customizations**: Multi-regional audit comparison component, jurisdiction-specific compliance indicators, global standards timeline, comparative analysis dashboard with cross-standard insights
+- **States**: Clear loading, success, warning states with regional context and appropriate jurisdiction-specific color coding, comparative analysis loading states
+- **Icon Selection**: Globe, Shield, CheckCircle, AlertTriangle, FileText, BarChart, GitCompare, Trophy, Target for representing global compliance states and comparative analysis
 - **Spacing**: Consistent 16px base spacing with expanded 32px section gaps for complex regulatory information
-- **Mobile**: Responsive design optimized for reviewing detailed multi-jurisdictional compliance data on mobile devices
+- **Mobile**: Responsive design optimized for reviewing detailed multi-jurisdictional compliance data on mobile devices, with comparative analysis optimized for larger screens

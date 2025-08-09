@@ -6,9 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CheckCircle, FileText, ChartBar, ClockCounterClockwise, Warning } from '@phosphor-icons/react';
+import { CheckCircle, FileText, ChartBar, ClockCounterClockwise, Warning, GitCompare } from '@phosphor-icons/react';
 import { useKV } from '@github/spark/hooks';
-import { performVirtualAudit, type RegulatoryStandard, type AuditResult, type ClauseResult } from '@/lib/virtual-audit';
+import { performVirtualAudit, type RegulatoryStandard, type AuditResult, type ClauseResult, type ComparativeAnalysisResult } from '@/lib/virtual-audit';
+import ComparativeAnalysis from './ComparativeAnalysis';
 import { toast } from 'sonner';
 
 interface DocumentUploadProps {
@@ -270,8 +271,10 @@ export default function VirtualAuditApp() {
   const [documentText, setDocumentText] = useState('');
   const [selectedStandard, setSelectedStandard] = useState<RegulatoryStandard>('ISO13485');
   const [currentResult, setCurrentResult] = useState<AuditResult | null>(null);
+  const [currentComparativeResult, setCurrentComparativeResult] = useState<ComparativeAnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [auditHistory, setAuditHistory] = useKV<AuditResult[]>('audit-history', []);
+  const [comparativeHistory, setComparativeHistory] = useKV<ComparativeAnalysisResult[]>('comparative-history', []);
 
   const handlePerformAudit = () => {
     if (!documentText.trim()) {
@@ -285,6 +288,7 @@ export default function VirtualAuditApp() {
     setTimeout(() => {
       const result = performVirtualAudit(documentText, selectedStandard);
       setCurrentResult(result);
+      setCurrentComparativeResult(null); // Clear comparative results when showing single audit
       
       // Add to history
       setAuditHistory(prevHistory => [result, ...(prevHistory || []).slice(0, 9)]); // Keep last 10 audits
@@ -292,6 +296,14 @@ export default function VirtualAuditApp() {
       toast.success(`Audit completed - ${result.coveragePercentage}% coverage identified`);
       setIsLoading(false);
     }, 1500);
+  };
+
+  const handleComparativeAnalysisComplete = (result: ComparativeAnalysisResult) => {
+    setCurrentComparativeResult(result);
+    setCurrentResult(null); // Clear single audit results when showing comparative analysis
+    
+    // Add to comparative history
+    setComparativeHistory(prevHistory => [result, ...(prevHistory || []).slice(0, 9)]); // Keep last 10 analyses
   };
 
   return (
@@ -306,11 +318,15 @@ export default function VirtualAuditApp() {
         </div>
 
         <Tabs defaultValue="audit" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="audit">New Audit</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="audit">Single Standard Audit</TabsTrigger>
+            <TabsTrigger value="comparative" className="flex items-center gap-2">
+              <GitCompare size={16} />
+              Comparative Analysis
+            </TabsTrigger>
             <TabsTrigger value="history" className="flex items-center gap-2">
               <ClockCounterClockwise size={16} />
-              Audit History ({auditHistory?.length || 0})
+              History ({(auditHistory?.length || 0) + (comparativeHistory?.length || 0)})
             </TabsTrigger>
           </TabsList>
 
@@ -349,30 +365,124 @@ export default function VirtualAuditApp() {
             )}
           </TabsContent>
 
-          <TabsContent value="history">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ClockCounterClockwise className="text-primary" />
-                  Audit History
-                </CardTitle>
-                <CardDescription>
-                  Review previous audit results and track compliance improvements over time
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <AuditHistory 
-                  auditHistory={auditHistory || []}
-                  onSelectAudit={setCurrentResult}
-                />
-              </CardContent>
-            </Card>
+          <TabsContent value="comparative" className="space-y-6">
+            <div className="mb-6">
+              <DocumentUpload 
+                documentText={documentText}
+                onDocumentChange={setDocumentText}
+              />
+            </div>
             
-            {currentResult && (
-              <div className="mt-6">
-                <AuditResults result={currentResult} />
-              </div>
+            <ComparativeAnalysis 
+              documentText={documentText}
+              onAnalysisComplete={handleComparativeAnalysisComplete}
+            />
+            
+            {currentComparativeResult && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <ChartBar className="text-primary" />
+                    Analysis Summary
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-sm text-muted-foreground">
+                    <strong>Analyzed:</strong> {new Date(currentComparativeResult.timestamp).toLocaleString()} • 
+                    <strong> Standards:</strong> {currentComparativeResult.standards.length} • 
+                    <strong> Insights:</strong> {currentComparativeResult.crossStandardInsights.length}
+                  </div>
+                </CardContent>
+              </Card>
             )}
+          </TabsContent>
+
+          <TabsContent value="history">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <ClockCounterClockwise className="text-primary" />
+                    Audit History
+                  </CardTitle>
+                  <CardDescription>
+                    Review previous audit results and comparative analyses to track compliance improvements over time
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {/* Comparative Analysis History */}
+                    {comparativeHistory && comparativeHistory.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold mb-3 flex items-center gap-2">
+                          <GitCompare size={16} />
+                          Comparative Analyses
+                        </h4>
+                        <div className="space-y-3">
+                          {comparativeHistory.map((analysis, index) => (
+                            <Card key={index} className="cursor-pointer hover:bg-muted/50 transition-colors" 
+                                  onClick={() => setCurrentComparativeResult(analysis)}>
+                              <CardContent className="p-4">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex-1">
+                                    <div className="font-medium">
+                                      Comparative Analysis - {analysis.standards.length} Standards
+                                    </div>
+                                    <div className="text-sm text-muted-foreground">
+                                      {new Date(analysis.timestamp).toLocaleString()}
+                                    </div>
+                                    <div className="text-sm text-muted-foreground mt-1">
+                                      {analysis.documentPreview}
+                                    </div>
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="text-lg font-bold text-primary">{analysis.overallMetrics.averageCoverage}%</div>
+                                    <div className="text-xs text-muted-foreground">
+                                      avg coverage
+                                    </div>
+                                    <div className="text-xs text-muted-foreground">
+                                      {analysis.crossStandardInsights.length} insights
+                                    </div>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Single Audit History */}
+                    {auditHistory && auditHistory.length > 0 && (
+                      <div>
+                        <h4 className="font-semibold mb-3">Single Standard Audits</h4>
+                        <AuditHistory 
+                          auditHistory={auditHistory || []}
+                          onSelectAudit={setCurrentResult}
+                        />
+                      </div>
+                    )}
+
+                    {(!auditHistory || auditHistory.length === 0) && (!comparativeHistory || comparativeHistory.length === 0) && (
+                      <div className="text-center py-8 text-muted-foreground">
+                        No previous audits found. Perform your first audit or comparative analysis to start tracking compliance progress.
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+              
+              {(currentResult || currentComparativeResult) && (
+                <div className="mt-6">
+                  {currentResult && <AuditResults result={currentResult} />}
+                  {currentComparativeResult && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      Switch to the Comparative Analysis tab to view detailed results
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </TabsContent>
         </Tabs>
       </div>
