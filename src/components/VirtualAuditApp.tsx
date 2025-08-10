@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CheckCircle, ChartBar, ClockCounterClockwise, Warning, GitCompare, Target } from '@phosphor-icons/react';
+import { CheckCircle, ChartBar, ClockCounterClockwise, Warning, GitCompare, Target, Upload } from '@phosphor-icons/react';
 import { useKV } from '@github/spark/hooks';
 import { performVirtualAudit, type RegulatoryStandard, type AuditResult, type ClauseResult, type ComparativeAnalysisResult } from '@/lib/virtual-audit';
 import ComparativeAnalysis from './ComparativeAnalysis';
@@ -13,6 +13,7 @@ import DocumentInput from './DocumentInput';
 import PDFParsingAccuracy from './PDFParsingAccuracy';
 import ParsingTestSuite from './ParsingTestSuite';
 import PDFParsingHelp from './PDFParsingHelp';
+import PDFUploadDemo from './PDFUploadDemo';
 import { toast } from 'sonner';
 
 interface ParsedDocumentAnalysis {
@@ -310,16 +311,20 @@ export default function VirtualAuditApp() {
           <h1 className="text-4xl font-bold tracking-tight">Virtual Audit Readiness</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Advanced compliance gap assessment with comprehensive PDF document analysis, parsing accuracy verification, and intelligent document type detection across global medical device and pharmaceutical regulations.
-            Upload your own PDF documents, load sample documents, or paste content for analysis against FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
+            Upload your own PDF documents for real-world testing, load sample documents, or paste content for analysis against FDA, EU MDR, ISO 13485, Health Canada, TGA, PMDA, ICH guidelines and more.
           </p>
         </div>
 
         <Tabs defaultValue="audit" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="audit">Single Standard Audit</TabsTrigger>
             <TabsTrigger value="comparative" className="flex items-center gap-2">
               <GitCompare size={16} />
               Comparative Analysis
+            </TabsTrigger>
+            <TabsTrigger value="upload" className="flex items-center gap-2">
+              <Upload size={16} />
+              Upload & Test
             </TabsTrigger>
             <TabsTrigger value="parsing" className="flex items-center gap-2">
               <Target size={16} />
@@ -399,6 +404,10 @@ export default function VirtualAuditApp() {
                 </CardContent>
               </Card>
             )}
+          </TabsContent>
+
+          <TabsContent value="upload" className="space-y-6">
+            <PDFUploadDemo />
           </TabsContent>
 
           <TabsContent value="parsing" className="space-y-6">
